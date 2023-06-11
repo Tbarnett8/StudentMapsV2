@@ -74,6 +74,10 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.44")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
+    //GoogleMaps
+    implementation 'com.google.maps.android:maps-compose:2.11.4'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+
 }
 
 kapt {

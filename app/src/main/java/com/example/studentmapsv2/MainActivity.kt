@@ -82,7 +82,7 @@ fun Navigation() {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
 
-                items.forEach { it ->
+                items.forEach {
                     NavigationBarItem(selected = currentRoute == it.route,
                         label = {
                             Text(
