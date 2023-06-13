@@ -11,32 +11,26 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun MapScreen(
     viewModel: MapViewModel = hiltViewModel(),
+    filtersList: List<String>,
 ){
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val singapore = LatLng(1.35, 103.87)
+        val london = LatLng(51.50873231893043, -0.12640646213137413)
         val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(singapore, 10f)
+            position = CameraPosition.fromLatLngZoom(london, 6f)
         }
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState
         ){
-            Marker(
-                state = MarkerState(position = singapore),
-                title = "Singapore",
-                snippet = "Marker in Singapore"
-            )
         }
 
 
@@ -46,5 +40,7 @@ fun MapScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewMapScreen(){
-    MapScreen()
+    MapScreen(
+        filtersList = emptyList()
+    )
 }

@@ -28,17 +28,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.studentmapsv2.NavigationItem
 import com.example.studentmapsv2.ui.theme.AccentColor
 import com.example.studentmapsv2.ui.theme.HighlightColor
 import com.example.studentmapsv2.ui.theme.MainColor
 
 @Composable
 fun HomepageScreen(
+    navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
-) {
+
+    ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -51,8 +54,8 @@ fun HomepageScreen(
             text = "StudentMapps",
             style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold)
         )
-        LazyColumn{
-            itemsIndexed(items = listOf(locationFilterItems)){ index, locations ->
+        LazyColumn {
+            itemsIndexed(items = listOf(locationFilterItems)) { index, locations ->
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -63,14 +66,14 @@ fun HomepageScreen(
                     Column {
                         FilterName(filters = locations, filterIndex = index)
                         LocationFilterButtons(viewModel = viewModel, filters = locations)
-                        Spacer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(MainColor)
-                                .padding(10.dp)
-                        )
                     }
                 }
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MainColor)
+                        .padding(10.dp)
+                )
             }
         }
 
@@ -83,20 +86,20 @@ fun HomepageScreen(
                         .padding(top = 10.dp)
                 )
                 {
-                    Column() {
+                    Column {
                         FilterName(filters = filters, filterIndex = i)
                         FilterButtons(viewModel = viewModel, filters = filters)
-                        Spacer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(MainColor)
-                                .padding(10.dp)
-                        )
                     }
                 }
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MainColor)
+                        .padding(10.dp)
+                )
             }
         }
-        SearchButton()
+        SearchButton(navController)
     }
 }
 
@@ -122,7 +125,10 @@ fun FilterName(
         text = filters[filterIndex].type,
         modifier = Modifier
             .padding(start = 5.dp),
-        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = HighlightColor)
+        style = MaterialTheme.typography.titleLarge.copy(
+            fontWeight = FontWeight.Bold,
+            color = HighlightColor
+        )
     )
 }
 
@@ -156,7 +162,8 @@ fun FilterButtons(
                     modifier = Modifier
                         .padding(horizontal = 10.dp, vertical = 20.dp),
                     shape = RoundedCornerShape(15),
-                    border = border
+                    border = border,
+                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 10.dp)
                 ) {
                     Text(
                         it.filter
@@ -198,7 +205,8 @@ fun LocationFilterButtons(
                     modifier = Modifier
                         .padding(horizontal = 10.dp, vertical = 20.dp),
                     shape = RoundedCornerShape(15),
-                    border = border
+                    border = border,
+                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 10.dp)
                 ) {
                     Text(
                         item.filter
@@ -210,13 +218,17 @@ fun LocationFilterButtons(
 }
 
 @Composable
-fun SearchButton() {
+fun SearchButton(
+    navController: NavController
+) {
     Column(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate(NavigationItem.Map.route)
+            },
             colors = ButtonDefaults.buttonColors(containerColor = HighlightColor),
             modifier = Modifier.fillMaxWidth(),
             shape = RectangleShape,
@@ -230,7 +242,7 @@ fun addItemToQuery(
     viewModel: HomeViewModel,
     selected: Boolean,
     item: FilterItem
-){
+) {
     if (selected) {
         viewModel.query.add(item.filter)
     } else {
@@ -239,8 +251,8 @@ fun addItemToQuery(
     Log.d("<<<<<", viewModel.query.toString())
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
-    HomepageScreen()
-}
+    HomepageScreen(navController = nav)
+}*/

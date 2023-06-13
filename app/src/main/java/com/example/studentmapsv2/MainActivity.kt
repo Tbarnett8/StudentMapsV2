@@ -45,11 +45,11 @@ fun NavigationController(navController: NavHostController) {
     NavHost(navController = navController, startDestination = NavigationItem.Homepage.route) {
 
         composable(NavigationItem.Homepage.route) {
-            HomepageScreen()
+            HomepageScreen(navController)
         }
 
         composable(NavigationItem.Map.route) {
-            MapScreen()
+            MapScreen(filtersList = emptyList())
         }
 
         composable(NavigationItem.Settings.route) {
